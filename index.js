@@ -100,7 +100,8 @@ module.exports = function(opt, execFile_opt) {
     var executable = opt.compilerPath ? 'java' : 'closure-compiler';
     var jar = execFile(executable, args, { maxBuffer: opt.maxBuffer*1024 }, function(error, stdout, stderr) {
       if (error || (stderr && !opt.continueWithWarnings)) {
-        this.emit('error', new gutil.PluginError(PLUGIN_NAME, error || stderr));
+        var message = 'executing "' + executable + '" failed: ' + (error || stderr);
+        this.emit('error', new gutil.PluginError(PLUGIN_NAME, message));
         process.exit(1);
         return;
       }
